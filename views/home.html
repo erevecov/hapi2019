@@ -1,0 +1,21 @@
+{{!< layout/default}}
+
+
+{{#extend "css"}}
+<style>
+
+</style> 
+
+{{/extend}}
+
+ <h1>test</h1>
+
+{{#extend "js"}}
+
+<script>
+ broadcast('test', 'prueba')
+ socket.on('test', function(data) {
+    console.log(data)
+ })
+</script>
+{{/extend}}

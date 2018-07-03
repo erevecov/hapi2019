@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hapi 2019</title>
+    <link rel="stylesheet" href="/public_assets/css/bootstrap.cosmo.min.css">
+    <!--<link rel="stylesheet" href="/assets/css/bootstrap.lux.min.css">-->
+    <link rel="stylesheet" href="/public_assets/fontawesome/css/fontawesome-all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #32AA9E;
+            background-attachment: fixed;
+            background-size: cover;
+            background-image: url("/public_assets/img/bg1.png");
+            background-repeat: no-repeat;
+        }
+
+        #fullPage {
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            position: fixed;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Change Autocomplete styles in Chrome*/
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+        -webkit-text-fill-color: #A6D1A3;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.7) inset;
+        transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="fullPage">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div style="margin-bottom:10%; margin-top:10%;">
+                        <center>
+                            <i style="color:rgba(255, 255, 255, 0.6)" class="fas fa-user fa-8x"></i>
+                        </center>
+                    </div>
+                    
+                    <form method="post" action="/login">
+                        <div id="forms">
+                            <div class="input-group margin-bottom-sm">
+                                <span style="background:rgba(255, 255, 255, 0.6); color:#A6D1A3; padding-bottom:13px;" class="input-group-addon"><br><i class="fas fa-2x fa-envelope fa-fw"></i></span>
+                                <input style="background:rgba(255, 255, 255, 0.6); font-size: 25px;" id="email" name="email" class="form-control" type="email" placeholder="Email">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span style="background:rgba(255, 255, 255, 0.6); color:#A6D1A3; padding-bottom:13px;" class="input-group-addon"><br><i class="fas fa-2x fa-key fa-fw"></i></span>
+                                <input style="background:rgba(255, 255, 255, 0.6); font-size: 25px;" id="password" name="password" class="form-control" type="password" placeholder="Contraseña">
+                            </div>
+                            <br>
+                            {{#if message}}
+                            <div class="alert alert-dismissible alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{message}}
+                            </div>
+                            <br>
+                            {{/if}}
+                            <input type="submit" class="btn btn-dark btn-block" value="Login">
+                            <br>
+                            <br>
+                            <br>
+                            <marquee> ©2019 EREVECO Ltda. Reservados todos los derechos. </marquee>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>   
+    <script src="/public_assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/public_assets/js/popper.min.js"></script>
+    <script src="/public_assets/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {{! Document Layout}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.cosmo.min.css">
+    <!--<link rel="stylesheet" href="/assets/css/bootstrap.lux.min.css">-->
+    <style>
+        .user {
+            font-size: 20px;
+        }
+    </style>
+    {{#block "css"}}
+    {{/block}}
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <h3>LOGO</h3>
+                <!--<img src="/assets/img/logo2.png" class="rounded" width="200" height="50" alt="">-->
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                    </li>
+                </ul>
+                <div class="my-2 my-lg-0 user dropdown">
+                    <a class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ credentials.name }} {{ credentials.lastname }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a data-toggle="tooltip" data-placement="bottom" title="Configurar cuenta" class="dropdown-item" href="#"><i class="fa fa-cog" aria-hidden="true"></i> Configurar</a>
+                        <div class="dropdown-divider"></div>
+                        <!--<a data-toggle="tooltip" data-placement="bottom" title="Tiempo restante de la sesión" class="dropdown-item" href="#"><i class="fa fa-clock-o" aria-hidden="true"></i> <span id="sessionTime"></span></a>-->
+                        <a data-toggle="tooltip" data-placement="bottom" title="Finalizar sesión" class="dropdown-item logout" href="/logout"><i class="fa fa-times" aria-hidden="true"></i> Cerrar sesión</a>
+                    </div>
+                </div>
+    
+            </div>
+        </nav>
+    </div>
+{{{ content }}}
+
+    <script src="/assets/js/socket.io.js"></script>
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script> 
+        const socketServer = `${window.location.protocol}//${window.location.hostname}:{{socketPort}}`
+        const socket = io(socketServer);
+        socket.emit('socketLogin', '{{credentials.token}}');
+        
+        socket.on('forceDisconnect', function() {
+            socket.disconnect();
+            ajax({
+                url: 'logout'
+            })
+            setTimeout(function() {
+                location.reload();
+            },100)
+        })
+
+        socket.on('checkSession', function() {
+            socket.emit('socketLogin', '{{credentials.token}}');
+        })
+        
+        const broadcast = (event, data) => {
+            socket.emit('broadcast', {event, data});
+        }
+        
+        const ajax = ({type, url, data}) => {
+            return new Promise((resolve, reject)=>{
+                let options = {
+                    url
+                };
+                if(!type){
+                    options.type = 'GET';
+                } else {
+                    options.type = type;
+                }
+
+                if(data) options.data = data;
+
+                $.ajax(options)
+                .done((result) => {
+                    resolve(result);
+                })
+                .fail(() => {
+                    reject({error: 'ERROR IN --> '+url+' <--'});
+                });
+            });
+        };
+    </script>
+    {{#block "js"}}
+    {{/block}}
+</body>
+</html>
